@@ -134,21 +134,27 @@ static CCTexture2DPixelFormat defaultAlphaPixelFormat_ = kCCTexture2DPixelFormat
 		{
 			case kCCTexture2DPixelFormat_RGBA8888:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+				hasPremultipliedAlpha_ = YES;
 				break;
 			case kCCTexture2DPixelFormat_RGBA4444:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_SHORT_4_4_4_4, data);
+				hasPremultipliedAlpha_ = YES;
 				break;
 			case kCCTexture2DPixelFormat_RGB5A1:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, (GLsizei) width, (GLsizei) height, 0, GL_RGBA, GL_UNSIGNED_SHORT_5_5_5_1, data);
+				hasPremultipliedAlpha_ = YES;
 				break;
 			case kCCTexture2DPixelFormat_RGB565:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, (GLsizei) width, (GLsizei) height, 0, GL_RGB, GL_UNSIGNED_SHORT_5_6_5, data);
+				hasPremultipliedAlpha_ = NO;
 				break;
 			case kCCTexture2DPixelFormat_AI88:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_LUMINANCE_ALPHA, (GLsizei) width, (GLsizei) height, 0, GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, data);
+				hasPremultipliedAlpha_ = NO;
 				break;
 			case kCCTexture2DPixelFormat_A8:
 				glTexImage2D(GL_TEXTURE_2D, 0, GL_ALPHA, (GLsizei) width, (GLsizei) height, 0, GL_ALPHA, GL_UNSIGNED_BYTE, data);
+				hasPremultipliedAlpha_ = NO;
 				break;
 			default:
 				[NSException raise:NSInternalInconsistencyException format:@""];
@@ -161,8 +167,6 @@ static CCTexture2DPixelFormat defaultAlphaPixelFormat_ = kCCTexture2DPixelFormat
 		format_ = pixelFormat;
 		maxS_ = size.width / (float)width;
 		maxT_ = size.height / (float)height;
-        
-		hasPremultipliedAlpha_ = NO;
         
 #ifdef __IPHONE_OS_VERSION_MAX_ALLOWED
 		resolutionType_ = kCCResolutionUnknown;
